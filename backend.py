@@ -60,13 +60,18 @@ class Week:
         report = self.check_enough(n)
         with open("staff.txt", "a+", encoding="utf-8") as file:
             for pen in self.schedules:
-                file.write(f'\n{pen}-Morning-{[name for name in self.schedules[pen].morningshift]} \n')
-                file.write(f'{pen}-Afternoon-{[name for name in self.schedules[pen].afternoonshift]} \n')
+                if pen in report:
+                    text = report[pen].split('-')[1]
+                    if "Morning" in report[pen]:
+                        file.write(f'\n{pen}-Morning-{[name for name in self.schedules[pen].morningshift]}-{text}\n')
+                        file.write(f'{pen}-Afternoon-{[name for name in self.schedules[pen].afternoonshift]} \n')
+                    elif "Afternoon" in report[pen]:
+                        file.write(f'\n{pen}-Morning-{[name for name in self.schedules[pen].morningshift]} \n')
+                        file.write(f'{pen}-Afternoon-{[name for name in self.schedules[pen].afternoonshift]}-{text}\n')
+                else:
+                    file.write(f'\n{pen}-Morning-{[name for name in self.schedules[pen].morningshift]} \n')
+                    file.write(f'{pen}-Afternoon-{[name for name in self.schedules[pen].afternoonshift]} \n')
                 file.write(f'{pen}-Absent-{[name for name in self.schedules[pen].absent]} \n')
-                try:
-                    file.write(f'{pen}-{report[pen]}\n')
-                except:
-                    continue
             file.close()
 
 def is_exist(data, name):

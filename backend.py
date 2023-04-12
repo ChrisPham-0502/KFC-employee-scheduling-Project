@@ -51,9 +51,9 @@ class Week:
         report = {}
         for i in self.schedules:
             if len(self.schedules[i].morningshift)<n:
-                report[i] = f"Sáng - thiếu {n-len(self.schedules[i].morningshift)} nhân viên"
+                report[i] = f" Morning - lack of {n-len(self.schedules[i].morningshift)} staffs"
             elif len(self.schedules[i].afternoonshift)<n:
-                report[i] = f"Tối - thiếu {n-len(self.schedules[i].afternoonshift)} nhân viên"
+                report[i] = f" Afternoon - lack of {n-len(self.schedules[i].afternoonshift)} staffs"
         return report
     
     def write_to_file(self,n):

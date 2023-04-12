@@ -18,18 +18,12 @@ class Days_in_week:
         print(self.absent)
 
     def add_morningshift(self, name):
-        if name in self.morningshift:
-            return self.morningshift
         return self.morningshift.append(name)
 
     def add_afternoonshift(self,name):
-        if name in self.afternoonshift:
-            return self.afternoonshift
         return self.afternoonshift.append(name)
 
     def add_absent(self,name):
-        if name in self.absent:
-            return self.absent
         return self.absent.append(name)
 
 class Week:

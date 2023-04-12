@@ -133,30 +133,33 @@ ________________________________________________________________________________
 SENDING EMAIL TO MANAGER
 ____________________________________________________________________________________________________________________________
 '''
-# thông tin tài khoản gửi email
-sender_email = "yourmail@gmail.com"
-sender_password = getpass.getpass("Nhập mật khẩu tại đây:")
+try:
+    # thông tin tài khoản gửi email
+    sender_email = "yourmail@gmail.com"
+    sender_password = getpass.getpass("Nhập mật khẩu tại đây:")
 
-# thông tin tài khoản nhận email
-receiver_email = "receiver@gmail.com"
+    # thông tin tài khoản nhận email
+    receiver_email = "receiver@gmail.com"
 
-# tạo một thông điệp email
-message = MIMEMultipart()
-message["From"] = sender_email
-message["To"] = receiver_email
-message["Subject"] = "Test email"
+    # tạo một thông điệp email
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = receiver_email
+    message["Subject"] = "Test email"
 
-# thêm nội dung email
-text = "Hello, this is a test email!"
-message.attach(MIMEText(text, "plain"))
+    # thêm nội dung email
+    text = "Hello, this is a test email!"
+    message.attach(MIMEText(text, "plain"))
 
-# thêm tệp tin đính kèm
-with open("staff.txt", "r", encoding='utf-8') as attachment:
-    file = MIMEText(attachment.read())
-    file.add_header("Content-Disposition", "attachment", filename="staff.txt")
-    message.attach(file)
+    # thêm tệp tin đính kèm
+    with open("staff.txt", "r", encoding='utf-8') as attachment:
+        file = MIMEText(attachment.read())
+        file.add_header("Content-Disposition", "attachment", filename="staff.txt")
+        message.attach(file)
 
-# gửi email
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-    server.login(sender_email, sender_password)
-    server.sendmail(sender_email, receiver_email, message.as_string())
+    # gửi email
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+  except:
+    print("Fail to send!)

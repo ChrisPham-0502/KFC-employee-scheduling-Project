@@ -113,5 +113,5 @@ for day in model.week:
                 schedule.add_absent(employee3)
         model.add_day(schedule)
 
-model.check_enough(n)
+print(model.check_enough(n))
 model.write_to_file()

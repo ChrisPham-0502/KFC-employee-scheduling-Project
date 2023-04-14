@@ -2,7 +2,7 @@ import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import getpass
+import getpass  # Thư viện cho phép nhập mật khẩu ẩn không để ai thấy
 
 # Đối tượng các ngày trong tuần
 class Days_in_week:

@@ -2,7 +2,7 @@ import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import getpass  # Thư viện cho phép nhập mật khẩu ẩn không để ai thấy
+import getpass
 
 # Đối tượng các ngày trong tuần
 class Days_in_week:
@@ -45,9 +45,9 @@ class Week:
         report = {}
         for i in self.schedules:
             if len(self.schedules[i].morningshift)<n:
-                report[i] = f" Morning - lack of {n-len(self.schedules[i].morningshift)} staffs"
+                report[i] = f"Morning-lack of {n-len(self.schedules[i].morningshift)} staffs"
             elif len(self.schedules[i].afternoonshift)<n:
-                report[i] = f" Afternoon - lack of {n-len(self.schedules[i].afternoonshift)} staffs"
+                report[i] = f"Afternoon-lack of {n-len(self.schedules[i].afternoonshift)} staffs"
         return report
     
     def write_to_file(self,n):
@@ -68,12 +68,12 @@ class Week:
                 file.write(f'{pen}-Absent-{[name for name in self.schedules[pen].absent]} \n')
             file.close()
 
-def is_exist(data, name):
+def is_exist(data, name): # Check nhân viên đã có lịch làm hôm đó chưa
     if name in data:
         return True
     return False
 
-def arrange_schedule(data, day):
+def arrange_schedule(data, day):  # Chia ca làm
     new_data = []
     for i in range(len(data)):
         c = data.iloc[i].to_dict()
@@ -96,6 +96,19 @@ def arrange_schedule(data, day):
             absent.append(i["Họ và Tên"])
     
     return morning, afternoon, absent
+
+def compute_salary(emp,model):  # Tính lương theo tuần 
+    income = {}
+    for name in emp:
+        income[name] = 0
+        for day in model.week:
+            if name in model.schedules[day].absent:
+                continue
+            income[name] += 1
+            continue
+        income[name] *= 100
+        continue
+    return income
 '''
 ____________________________________________________________________________________________________________________________________
 RUNNING PROGRAM
@@ -127,6 +140,9 @@ for day in model.week:
 
 a = model.check_enough(n)
 model.write_to_file()
+
+name_list = data["Họ và Tên"].to_list()
+print(compute_salary(name_list, model))
 '''
 ____________________________________________________________________________________________________________________________
 SENDING EMAIL TO MANAGER
@@ -160,5 +176,5 @@ try:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(sender_email, sender_password)
         server.sendmail(sender_email, receiver_email, message.as_string())
-  except:
-    print("Fail to send!)
+except:
+     print("Fail to send!")
